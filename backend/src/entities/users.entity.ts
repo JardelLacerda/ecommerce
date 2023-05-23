@@ -7,8 +7,10 @@ import {
     UpdateDateColumn,
     DeleteDateColumn,
     BeforeInsert,
-    BeforeUpdate
+    BeforeUpdate,
+    ManyToOne,
 } from "typeorm";
+import Address from "./address.entity";
 
 @Entity("users")
 class User{
@@ -46,6 +48,9 @@ class User{
       }
     }
 
+    @ManyToOne(() => Address, (address) => address.user )
+    addresses: Address
+    
 }
 
 export default User

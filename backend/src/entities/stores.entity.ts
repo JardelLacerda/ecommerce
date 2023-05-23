@@ -2,7 +2,10 @@ import {
     Entity, 
     PrimaryGeneratedColumn, 
     Column,
+    JoinColumn,
+    OneToOne,
 } from "typeorm";
+import User from "./users.entity";
 
 @Entity("stores")
 class Stores{
@@ -17,6 +20,10 @@ class Stores{
     
     @Column({type: "text"})
     logo: string
+
+    @OneToOne(() => User)
+    @JoinColumn()
+    user: User
 }
 
 export default Stores
