@@ -27,6 +27,6 @@ const settings = (): DataSourceOptions => {
       entities: [entitiesPath],
       migrations: [migrationPath],
     };
-  };
+};
   
-  const AppDataSource = new DataSource(settings());
+export const AppDataSource = new DataSource(settings());
