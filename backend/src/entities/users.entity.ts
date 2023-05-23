@@ -24,7 +24,7 @@ class User{
     @Column({ type: "varchar", length: 120 })
     password: string
     
-    @Column({ type: "enum", default: "user" })
+    @Column({ type: "enum", default: "user", enum: ["user", "admin", "merchant"] })
     permission: "user" | "admin" | "merchant"
 
     @CreateDateColumn({ type: "date" })
