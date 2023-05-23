@@ -2,7 +2,9 @@ import {
     Entity, 
     PrimaryGeneratedColumn, 
     Column,
+    OneToMany,
 } from "typeorm";
+import StoreProducts from "./storeProducts.entity";
 
 @Entity("products")
 class Product{
@@ -20,6 +22,9 @@ class Product{
     
     @Column({type: "decimal", precision: 12, scale: 2})
     price: number | string
+
+    @OneToMany(() => StoreProducts, (sp) => sp.product)
+    storeProducts: StoreProducts
 }
 
 export default Product

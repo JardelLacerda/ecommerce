@@ -4,8 +4,10 @@ import {
     Column,
     JoinColumn,
     OneToOne,
+    OneToMany,
 } from "typeorm";
 import User from "./users.entity";
+import StoreProducts from "./storeProducts.entity";
 
 @Entity("stores")
 class Stores{
@@ -24,6 +26,9 @@ class Stores{
     @OneToOne(() => User)
     @JoinColumn()
     user: User
+
+    @OneToMany(() => StoreProducts, (sp) => sp.product)
+    storeProducts: StoreProducts[]
 }
 
 export default Stores
