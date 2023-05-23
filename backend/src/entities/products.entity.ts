@@ -5,6 +5,7 @@ import {
     OneToMany,
 } from "typeorm";
 import StoreProducts from "./storeProducts.entity";
+import Order from "./order.entitty";
 
 @Entity("products")
 class Product{
@@ -24,7 +25,10 @@ class Product{
     price: number | string
 
     @OneToMany(() => StoreProducts, (sp) => sp.product)
-    storeProducts: StoreProducts
+    storeProducts: StoreProducts[]
+
+    @OneToMany(() => Order, (order) => order.product)
+    orders: Order[]
 }
 
 export default Product

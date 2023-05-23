@@ -4,8 +4,10 @@ import {
     Column,
     OneToOne,
     JoinColumn,
+    OneToMany,
 } from "typeorm";
 import User from "./users.entity";
+import Order from "./order.entitty";
 
 @Entity("carts")
 class Cart{
@@ -18,6 +20,9 @@ class Cart{
     @OneToOne(() => User)
     @JoinColumn()
     user: User
+
+    @OneToMany(() => Order, (order) => order.product)
+    orders: Order[]
 }
 
 export default Cart
