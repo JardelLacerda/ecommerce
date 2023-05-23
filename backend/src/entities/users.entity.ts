@@ -27,7 +27,7 @@ class User{
     password: string
     
     @Column({ type: "enum", default: "user", enum: ["user", "admin", "merchant"] })
-    permission: "user" | "admin" | "merchant"
+    permission: "user" | "admin" | "merchant" | string
 
     @CreateDateColumn({ type: "date" })
     createdAt: Date | string

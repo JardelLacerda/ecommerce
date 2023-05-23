@@ -1,7 +1,8 @@
 import "reflect-metadata"
 import "dotenv/config"
 import path from "path";
-import { DataSource, DataSourceOptions } from "typeorm";
+import { DataSource, DataSourceOptions, Repository } from "typeorm";
+import { Address, Cart, Order, Product, StoreProducts, Stores, User } from "./entities";
 
 const settings = (): DataSourceOptions => {
     const entitiesPath: string = path.join(__dirname, "./entities/**.{ts,js}");
@@ -32,3 +33,11 @@ const settings = (): DataSourceOptions => {
 };
   
 export const AppDataSource = new DataSource(settings());
+
+export const userRepo: Repository<User> = AppDataSource.getRepository(User)
+export const addressRepo: Repository<Address> = AppDataSource.getRepository(Address)
+export const cartRepo: Repository<Cart> = AppDataSource.getRepository(Cart)
+export const orderRepo: Repository<Order> = AppDataSource.getRepository(Order)
+export const productsRepo: Repository<Product> = AppDataSource.getRepository(Product)
+export const storesRepo: Repository<Stores> = AppDataSource.getRepository(Stores)
+export const storeProductsRepo: Repository<StoreProducts> = AppDataSource.getRepository(StoreProducts)
