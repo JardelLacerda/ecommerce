@@ -30,11 +30,11 @@ describe("Update users router - PATCH /users", () => {
     })
 
     afterEach(async () => {
-        await userRepo.remove(await userRepo.find())
+        await userRepo.remove(userBase)
     })
 
-    afterAll(async () => {
-        await userRepo.remove(await userRepo.find())
+    afterAll(async () => {        
+        await userRepo.remove(userBase)
         await connection.destroy()
     })
 
@@ -84,7 +84,7 @@ describe("Update users router - PATCH /users", () => {
         expect(response.body.updatedAt).not.toEqual(response.body.createdAt)
     })
 
-    it("Error - Update user admin - Token user", async () => {
+    it("Error - Update user for other user not admin - Token user", async () => {
         const response = await supertest(app)
         .patch(`${baseEndpoint}/${userBase.id}`)
         .send({name: "usuario"})
@@ -135,7 +135,7 @@ describe("Update users router - PATCH /users", () => {
 
     it("Error - Update users - Missing bearer token", async () => {
         const response = await supertest(app)
-        .get(baseEndpoint)
+        .patch(baseEndpoint)
 
         const { status, error } = errosMock.missingBearer
 
@@ -146,7 +146,7 @@ describe("Update users router - PATCH /users", () => {
     it("Error - Update users - Jwt Malformed", async () => {
 
         const response = await supertest(app)
-        .get(baseEndpoint)
+        .patch(baseEndpoint)
         .set("Atuhorization", utilsMock.jwtMalformed)
 
         const { status, error } = errosMock.jwtMalformed
@@ -159,7 +159,7 @@ describe("Update users router - PATCH /users", () => {
     it("Error - Update users - Invalid signature", async () => {
 
         const response = await supertest(app)
-        .get(baseEndpoint)
+        .patch(baseEndpoint)
         .set("Atuhorization", utilsMock.invalidSignature)
 
         const { status, error } = errosMock.invalidSignature

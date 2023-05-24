@@ -24,7 +24,9 @@ describe("Read users router - GET /users", () => {
     })
 
     afterAll(async () => {
-        await userRepo.remove(await userRepo.find())
+        const removeUsers = (await userRepo.find()).filter((user) => user.permission !== "admin") 
+        
+        await userRepo.remove(removeUsers)
         await connection.destroy()
     })
 

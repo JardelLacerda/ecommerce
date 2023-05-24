@@ -10,9 +10,13 @@ const settings = (): DataSourceOptions => {
     const nodeEnv: string | undefined = process.env.NODE_ENV;
   
     if (nodeEnv === "test") {
+      const dbUrlTest = process.env.TEST_DATABASE_URL
+
+      if (!dbUrlTest) throw new Error("Missing env var: 'TEST_DATABASE_URL'");
+
       return {
-        type: "sqlite",
-        database: ":memory:",
+        type: "postgres",
+        url: dbUrlTest,
         synchronize: true,
         entities: [entitiesPath],
       };
