@@ -4,6 +4,7 @@ import { User } from "../../../entities"
 import supertest from "supertest"
 import app from "../../../app"
 import createUsersMock from "../../mock/users/createUsers.mock"
+import errosMock from "../../mock/erros.mock"
 
 
 describe("Create user router - POST /users", () => {
@@ -98,10 +99,10 @@ describe("Create user router - POST /users", () => {
         .post(baseEndpoint)
         .send(createUsersMock.scDefaultUser)
 
-        expect(response.status).toEqual(409)
-        expect(response.body).toEqual(expect.objectContaining({
-            message: "This email is already registered"
-        }))
+        const { status, error } =  errosMock.clonflit.email
+
+        expect(response.status).toEqual(status)
+        expect(response.body).toEqual(expect.objectContaining(error))
     })
 
     it("Error - Create user - Permission Invalid", async () => {

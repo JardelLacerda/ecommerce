@@ -7,8 +7,6 @@ import app from "../../../app"
 import utils from "../../mock/utils.mock"
 import errosMock from "../../mock/erros.mock"
 
-
-
 describe("Read users router - GET /users", () => {
     const baseEndpoint: string = "/users"
     let userRepo: Repository<User> 
@@ -35,7 +33,7 @@ describe("Read users router - GET /users", () => {
 
         const response = await supertest(app)
         .get(baseEndpoint)
-        .set("Atuhorization", utils.validTokenAdmin)
+        .set("Atuhorization", utils.validToken("admin", "id"))
 
         expect(response.status).toEqual(200)
         expect(Array.isArray(response.body)).toEqual(true)
@@ -47,10 +45,12 @@ describe("Read users router - GET /users", () => {
 
         const response = await supertest(app)
         .get(baseEndpoint)
-        .set("Atuhorization", utils.validTokenUser)
+        .set("Atuhorization", utils.validToken("user", "id"))
 
-        expect(response.status).toEqual(errosMock.forbidden.status)
-        expect(response.body).toEqual(errosMock.forbidden.error)
+        const { status, error } = errosMock.forbidden
+
+        expect(response.status).toEqual(status)
+        expect(response.body).toEqual(error)
 
     })
 
@@ -58,8 +58,10 @@ describe("Read users router - GET /users", () => {
         const response = await supertest(app)
         .get(baseEndpoint)
 
-        expect(response.status).toEqual(errosMock.missingBearer.status)
-        expect(response.body).toEqual(errosMock.missingBearer.error)
+        const { status, error } = errosMock.missingBearer
+
+        expect(response.status).toEqual(status)
+        expect(response.body).toEqual(error)
     })
 
     it("Error - Read users - Jwt Malformed", async () => {
@@ -68,8 +70,10 @@ describe("Read users router - GET /users", () => {
         .get(baseEndpoint)
         .set("Atuhorization", utils.jwtMalformed)
 
-        expect(response.status).toEqual(errosMock.jwtMalformed.status)
-        expect(response.body).toEqual(errosMock.jwtMalformed.error)
+        const { status, error } = errosMock.jwtMalformed
+
+        expect(response.status).toEqual(status)
+        expect(response.body).toEqual(error)
 
     })
 
@@ -79,8 +83,10 @@ describe("Read users router - GET /users", () => {
         .get(baseEndpoint)
         .set("Atuhorization", utils.invalidSignature)
 
-        expect(response.status).toEqual(errosMock.invalidSignature.status)
-        expect(response.body).toEqual(errosMock.invalidSignature.error)
+        const { status, error } = errosMock.invalidSignature
+
+        expect(response.status).toEqual(status)
+        expect(response.body).toEqual(error)
 
     })
 })
