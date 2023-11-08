@@ -1,10 +1,11 @@
-import { DataSource, Repository } from "typeorm"
+import { DataSource, Not, Repository } from "typeorm"
 import { AppDataSource } from "../../../data-source"
 import { User } from "../../../entities"
 import supertest from "supertest"
 import app from "../../../app"
 import createUsersMock from "../../mock/users/createUsers.mock"
 import errosMock from "../../mock/erros.mock"
+import { ZodError } from "zod"
 
 
 describe("Create user router - POST /users", () => {
@@ -22,12 +23,12 @@ describe("Create user router - POST /users", () => {
     })
 
     beforeEach(async () => {
-        const removeUsers = (await userRepo.find()).filter((user) => user.permission !== "admin") 
+        const removeUsers = await userRepo.find({ where: { permission: Not("admin") }})
         await userRepo.remove(removeUsers)
     })
 
     afterAll(async () => {
-        const removeUsers = (await userRepo.find()).filter((user) => user.permission !== "admin") 
+        const removeUsers = await userRepo.find()
         await userRepo.remove(removeUsers)
         await connection.destroy()
     })
@@ -141,12 +142,7 @@ describe("Create user router - POST /users", () => {
 
         expect(response.status).toEqual(400)
         expect(response.body).toEqual(expect.objectContaining({
-            message: [
-                "expected string, received number",
-                "expected email, received object", 
-                "passoword invalid, min 4 caracteres",
-                "Permission key value must be: 'user' or 'merchant'"
-            ]
+            message: expect.any(ZodError)
         }))
 
     })

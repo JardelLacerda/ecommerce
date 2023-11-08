@@ -8,7 +8,7 @@ import {
     DeleteDateColumn,
     BeforeInsert,
     BeforeUpdate,
-    ManyToOne,
+    OneToMany,
 } from "typeorm";
 import Address from "./address.entity";
 
@@ -48,8 +48,8 @@ class User{
       }
     }
 
-    @ManyToOne(() => Address, (address) => address.user )
-    addresses: Address
+    @OneToMany(() => Address, (address) => address.user )
+    addresses: Address[]
     
 }
 
