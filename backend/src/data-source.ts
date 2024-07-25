@@ -2,7 +2,7 @@ import "reflect-metadata"
 import "dotenv/config"
 import path from "path";
 import { DataSource, DataSourceOptions, Repository } from "typeorm";
-import { Cart, Product, User } from "./entities";
+import { Address, Cart, Order, Product, StoreProducts, Stores, User } from "./entities";
 
 const settings = (): DataSourceOptions => {
     const entitiesPath: string = path.join(__dirname, "./entities/**.{ts,js}");
@@ -10,9 +10,13 @@ const settings = (): DataSourceOptions => {
     const nodeEnv: string | undefined = process.env.NODE_ENV;
   
     if (nodeEnv === "test") {
+      const dbUrlTest = process.env.TEST_DATABASE_URL
+
+      if (!dbUrlTest) throw new Error("Missing env var: 'TEST_DATABASE_URL'");
+
       return {
-        type: "sqlite",
-        database: ":memory:",
+        type: "postgres",
+        url: dbUrlTest,
         synchronize: true,
         entities: [entitiesPath],
       };
@@ -33,5 +37,11 @@ const settings = (): DataSourceOptions => {
 };
   
 export const AppDataSource = new DataSource(settings());
-export const userRepo: Repository<User> = AppDataSource.getRepository(User) 
-export const productRepo: Repository<Product> = AppDataSource.getRepository(Product)
+
+export const userRepo: Repository<User> = AppDataSource.getRepository(User)
+export const addressRepo: Repository<Address> = AppDataSource.getRepository(Address)
+export const cartRepo: Repository<Cart> = AppDataSource.getRepository(Cart)
+export const orderRepo: Repository<Order> = AppDataSource.getRepository(Order)
+export const productsRepo: Repository<Product> = AppDataSource.getRepository(Product)
+export const storesRepo: Repository<Stores> = AppDataSource.getRepository(Stores)
+export const storeProductsRepo: Repository<StoreProducts> = AppDataSource.getRepository(StoreProducts)

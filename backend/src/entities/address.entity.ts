@@ -2,7 +2,7 @@ import {
     Entity, 
     PrimaryGeneratedColumn, 
     Column,
-    OneToMany,
+    ManyToOne,
 } from "typeorm";
 import User from "./users.entity";
 
@@ -26,8 +26,8 @@ class Address{
     @Column({type: "varchar", length: 150})
     city: string
 
-    @OneToMany(() => User, (user) => user.addresses)
-    user: User[]
+    @ManyToOne(() => User, (user) => user.addresses)
+    user: User
 }
 
 export default Address

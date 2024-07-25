@@ -8,7 +8,7 @@ import {
     DeleteDateColumn,
     BeforeInsert,
     BeforeUpdate,
-    ManyToOne,
+    OneToMany,
 } from "typeorm";
 import Address from "./address.entity";
 
@@ -27,7 +27,7 @@ class User{
     password: string
     
     @Column({ type: "enum", default: "user", enum: ["user", "admin", "merchant"] })
-    permission: "user" | "admin" | "merchant"
+    permission: "user" | "admin" | "merchant" | string
 
     @CreateDateColumn({ type: "date" })
     createdAt: Date | string
@@ -48,8 +48,8 @@ class User{
       }
     }
 
-    @ManyToOne(() => Address, (address) => address.user )
-    addresses: Address
+    @OneToMany(() => Address, (address) => address.user )
+    addresses: Address[]
     
 }
 
