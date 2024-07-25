@@ -1,4 +1,4 @@
-import { DataSource, DeepPartial, Repository } from "typeorm"
+import { DataSource, Repository } from "typeorm"
 import { Address, User } from "../../../entities"
 import { AppDataSource, userRepo } from "../../../data-source"
 import supertest from "supertest"

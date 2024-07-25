@@ -36,7 +36,9 @@ describe("Read progile router - GET /users/profile", () => {
         .get(baseEndpoint)
         .set("Atuhorization", utilsMock.validToken("user", userBase.id ))
         
-        
+        expect(response.status).toEqual(200)
+        expect(Array.isArray(response.body)).toEqual(true)
+        expect(response.body).toEqual("")
 
     })
 
