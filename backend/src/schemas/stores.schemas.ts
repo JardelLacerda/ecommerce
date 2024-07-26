@@ -11,4 +11,6 @@ export const storeCreateSchema = storesSchema.omit({
     id: true
 })
 
-export const sotreUpdateSchema = storeCreateSchema.partial()
+export const storeUpdateSchema = storeCreateSchema.partial()
+
+export const allStoresSchema = z.array(storesSchema)

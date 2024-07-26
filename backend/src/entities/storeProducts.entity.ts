@@ -1,4 +1,5 @@
 import { 
+    Column,
     Entity, 
     ManyToOne, 
     PrimaryGeneratedColumn, 
@@ -16,6 +17,9 @@ class StoreProducts{
 
     @ManyToOne(() => Stores, (stores) => stores.storeProducts)
     store: Stores
+
+    @Column({type: "int"})
+    quantity: number
 }
 
 export default StoreProducts

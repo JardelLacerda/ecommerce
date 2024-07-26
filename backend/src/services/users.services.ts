@@ -53,7 +53,7 @@ const update = async (payload: TUserPartial, foundUser: TUser): Promise<TUserRes
 const destroy = async (foundUser: TUser): Promise<void> => {
 
     await userRepo.softRemove(foundUser)
-    console.log("passou o console")
+    
     return 
 } 
 

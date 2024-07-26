@@ -38,7 +38,7 @@ const destroy = async (req: Request, resp: Response): Promise<Response<void>> =>
     const foundUser: TUser = resp.locals.found
 
     await usersServices.destroy(foundUser)
-    console.log("oie")
+    
     return resp.status(204).json()
 } 
 
